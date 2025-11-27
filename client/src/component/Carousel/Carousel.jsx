@@ -1,29 +1,24 @@
-import { useEffect, useState } from "react";
-import "./carousel.styles.scss";
-import { current } from "@reduxjs/toolkit";
+import { useState } from "react";
+import "./carousel.scss";
+
 const Carousel = ({ data }) => {
-  const [currentIndex, setCurrentIndex] = useState(1);
+  const [index, setIndex] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevState) => {
-        if (prevState == data.length - 1) {
-          return (prevState = 0);
-        } else {
-          return prevState + 1;
-        }
-      });
+  const prev = () => {
+    setIndex((index - 1 + data.length) % data.length);
+  };
 
-      return () => {
-        clearInterval(interval);
-      };
-    }, 8000);
-  }, []);
+  const next = () => {
+    setIndex((index + 1) % data.length);
+  };
 
-  console.log(currentIndex);
   return (
-    <div className="carousel-wrapper">
-      <img src={data[currentIndex]} />
+    <div className="carousel">
+      <button className="carousel-btn left" onClick={prev}>❮</button>
+
+      <img src={data[index]} alt="room" className="carousel-img" />
+
+      <button className="carousel-btn right" onClick={next}>❯</button>
     </div>
   );
 };

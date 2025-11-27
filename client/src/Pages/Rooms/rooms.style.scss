@@ -1,0 +1,47 @@
+#rooms-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #faf8f6;
+
+  .rooms-banner {
+    width: 100%;
+    height: 320px;
+    background: url("/images/rooms_header.jpg") center/cover no-repeat;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.45);
+    }
+
+    .title {
+      position: relative;
+      color: white;
+      font-size: 42px;
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      position: relative;
+      color: #f2f2f2;
+      font-size: 18px;
+      z-index: 2;
+    }
+  }
+
+  .rooms-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+}

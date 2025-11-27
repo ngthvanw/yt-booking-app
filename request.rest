@@ -28,7 +28,12 @@ Content-Type: application/json
 
 {
     "name": "test room 4",
-    "price": 10000
+    "price": 10000,
+    "img": [
+    "/gallery/g1.jpg",
+    "/gallery/g2.jpg",
+    "/gallery/g3.jpg"
+  ]
 }
 
 #delete room
@@ -107,3 +112,14 @@ http://localhost:5000/api/users/logout
 #check auth
 ###
 GET http://localhost:5000/auth
+
+
+###
+POST http://localhost:5000/api/contact
+Content-Type: application/json
+
+{
+  "name": "Nguyen The",
+  "email": "test@gmail.com",
+  "message": "Tôi muốn đặt phòng ạ!"
+}

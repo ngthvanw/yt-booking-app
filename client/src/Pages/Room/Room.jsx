@@ -1,57 +1,34 @@
 import "./room.styles.scss";
 import { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { reset, deleteRoom } from "../../features/room/roomSlice";
-import Carousel from "../../component/Carousel/Carousel";
+import { useParams, Link } from "react-router-dom";
+import Gallery from "../../component/Gallery/Gallery";
 
 const Room = () => {
-  const { isSuccess } = useSelector((state) => state.room);
   const { id } = useParams();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [room, setRoom] = useState(null);
 
   useEffect(() => {
-    const getRoom = async () => {
-      try {
-        const res = await fetch(`/api/rooms/${id}`);
+    fetch(`/api/rooms/${id}`)
+      .then(res => res.json())
+      .then(data => setRoom(data));
+  }, [id]);
 
-        if (res.ok) {
-          const data = await res.json();
-          setRoom(data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getRoom();
-  }, []);
-  const handleDelete = () => {
-    dispatch(deleteRoom(id));
-  };
+  if (!room) return <p>Đang tải...</p>;
 
   return (
-    <div id="room">
-      <div className="container">
-        {room ? (
-          <div>
-            <div className="img-wrapper">
-              <Carousel data={room.img} />
+    <div id="room-page">
+      <h1>{room.name}</h1>
+      <p>{room.desc}</p>
 
-              {/* <img src={room.img[0]} alt="" /> */}
-            </div>
-            <div className="text-wrapper">
-              <h1 className="heading center"> {room.name} </h1>
-              <p> {room.desc} </p>
-              <h2> ${room.price.toFixed(2)} </h2>
-            </div>
+      <Gallery images={room.img} />
 
-            <div className="cta-wrapper">
-              <Link to={`/bookings/${room._id}`}>Book Now</Link>
-            </div>
-          </div>
-        ) : null}
+      <div className="room-info-box">
+        <h2>Giá phòng</h2>
+        <p className="price">${room.price}</p>
+
+        <Link to={`/bookings/${room._id}`} className="btn-primary">
+          Book Now
+        </Link>
       </div>
     </div>
   );

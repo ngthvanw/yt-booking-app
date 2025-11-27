@@ -1,0 +1,49 @@
+#spa-page {
+  padding: 40px;
+
+  .spa-header {
+    text-align: center;
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+    }
+
+    p {
+      color: #666;
+      margin-top: 10px;
+    }
+  }
+
+  .spa-gallery {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+
+    img {
+      width: 100%;
+      max-width: 33%;
+      height: 350px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+  }
+
+  .spa-info {
+    margin-top: 40px;
+    text-align: center;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #555;
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+  }
+}

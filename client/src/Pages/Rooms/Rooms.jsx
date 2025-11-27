@@ -1,23 +1,22 @@
-import { getRooms, reset } from "../../features/room/roomSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import "./rooms.style.scss";
 import RoomList from "../../component/RoomList/RoomList";
-const Rooms = () => {
-  const dispatch = useDispatch();
-  const { rooms } = useSelector((state) => state.room);
-  useEffect(() => {
-    dispatch(getRooms());
-    dispatch(reset());
-  }, []);
 
+const Rooms = () => {
   return (
-    <div>
-      <div>
-        <div className="container">
-          <h1 className="heading center">Rooms</h1>
-          {rooms.length > 0 ? <RoomList data={rooms} /> : null}
-        </div>
+    <div id="rooms-page">
+
+      {/* BANNER */}
+      <div className="rooms-banner">
+        <div className="overlay" />
+        <h1 className="title">Danh sách phòng</h1>
+        <p className="subtitle">Chọn phòng nghỉ phù hợp cho kỳ ở tuyệt vời của bạn</p>
       </div>
+
+      {/* LIST ROOM */}
+      <div className="rooms-container">
+        <RoomList />
+      </div>
+
     </div>
   );
 };

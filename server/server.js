@@ -9,6 +9,7 @@ const bookingRoutes = require("./routes/bookingRoutes");
 const userRoutes = require("./routes/userRoutes");
 const cookieParser = require("cookie-parser");
 
+
 const port = process.env.PORT || 5000;
 
 // connect to database
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/api/rooms", roomRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/users", userRoutes);
+
 
 // setup production
 if (process.env.NODE_ENV === "production") {

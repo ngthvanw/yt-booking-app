@@ -1,0 +1,86 @@
+#profile-page {
+  padding: 40px 0 60px;
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 26px;
+
+    .profile-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 999px;
+      background: #fAcc6b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #fffffb;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 4px;
+    }
+
+    p {
+      margin: 0;
+      color: #4b5563;
+    }
+  }
+
+  .profile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+    gap: 20px;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .profile-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 18px 20px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+
+    h2 {
+      margin-bottom: 12px;
+      font-size: 1.3rem;
+    }
+  }
+
+  .profile-info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f3f4f6;
+
+    span:first-child {
+      color: #6b7280;
+    }
+  }
+
+  .profile-bookings {
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+
+      th,
+      td {
+        padding: 8px 10px;
+        border-bottom: 1px solid #f3f4f6;
+        text-align: left;
+      }
+
+      th {
+        color: #6b7280;
+        font-weight: 500;
+      }
+    }
+  }
+}
