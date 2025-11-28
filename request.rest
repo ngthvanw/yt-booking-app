@@ -5,21 +5,26 @@ GET http://localhost:5000/api/rooms
 # create room
 ###
 POST http://localhost:5000/api/rooms
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 Content-Type: application/json
 
 {
-        "name": "test room 3",
-        "price": 500,
-        "desc": "some description",
-        "roomNumbers":[{
-            "number": 101,
-            "unavailableDates": ["2024-01-24", "2024-01-26"]
-        }]
+  "name": "Phòng Luxury Ocea View",
+  "desc": "Phòng 5 sao view biển tuyệt đẹp, bao gồm giường king size, bồn tắm đá cẩm thạch và phòng khách.",
+  "price": 120,
+  "img": [
+    "/gallery/room1_1.jpg",
+    "/gallery/room1_2.jpg",
+    "/gallery/room1_3.jpg",
+    "/gallery/room1_4.jpg",
+    "/gallery/room1_5.jpg"
+  ]
 }
+
 
 # get single room
 ###
-GET http://localhost:5000/api/rooms/6921b241478c7924392d936c
+GET http://localhost:5000/api/rooms/6921af3f7949d3940d0bfc27
 
 # update room
 ###
@@ -89,9 +94,9 @@ POST http://localhost:5000/api/users
 Content-Type: application/json
 
 {
-    "name": "james harden",
-    "email": "harden@gmail.com",
-    "password": "password"
+    "name": "van",
+    "email": "van@gmail.com",
+    "password": "1234"
 }
 
 
@@ -101,8 +106,8 @@ POST http://localhost:5000/api/users/login
 Content-Type: application/json
 
 {
-    "email": "harden@gmail.com",
-    "password": "password"
+    "email": "van@gmail.com",
+    "password": "1234"
 }
 
 #logout user

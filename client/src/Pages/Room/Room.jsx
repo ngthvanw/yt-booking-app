@@ -17,18 +17,28 @@ const Room = () => {
 
   return (
     <div id="room-page">
-      <h1>{room.name}</h1>
-      <p>{room.desc}</p>
 
-      <Gallery images={room.img} />
+      <div className="room-header">
+        <h1>{room.name}</h1>
+        <p className="room-desc">{room.desc}</p>
+      </div>
 
-      <div className="room-info-box">
-        <h2>Giá phòng</h2>
-        <p className="price">${room.price}</p>
+      <div className="room-layout">
 
-        <Link to={`/bookings/${room._id}`} className="btn-primary">
-          Book Now
-        </Link>
+        {/* Cột trái - Hình ảnh chính */}
+        <div className="room-gallery">
+          <Gallery images={room.img} />
+        </div>
+
+        {/* Cột phải - Box giá */}
+        <aside className="room-price-box">
+          <h3>Giá phòng</h3>
+          <p className="price">${room.price}</p>
+
+          <Link to={`/bookings/${room._id}`} className="btn-book">
+            Đặt phòng ngay
+          </Link>
+        </aside>
       </div>
     </div>
   );

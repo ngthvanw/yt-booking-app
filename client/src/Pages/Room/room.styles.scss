@@ -1,41 +1,85 @@
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin: 30px auto;
-  max-width: 1000px;
+#room-page {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
 
-  .gallery-item {
-    width: 100%;
-    height: 220px;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+/* ----- HEADER ----- */
+.room-header {
+  margin-bottom: 20px;
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: 0.3s;
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
 
-      &:hover {
-        transform: scale(1.08);
-      }
+  .room-desc {
+    font-size: 16px;
+    color: #555;
+  }
+}
+
+/* ----- LAYOUT 2 CỘT ----- */
+.room-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+/* ----- GALLERY ----- */
+.room-gallery {
+  flex: 1;
+  max-width: 900px;
+}
+
+/* ----- PRICE BOX ----- */
+.room-price-box {
+  width: 260px;
+  background: #fff7e8;
+  border-radius: 12px;
+  padding: 25px 20px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .price {
+    font-size: 28px;
+    font-weight: 700;
+    color: #c28a2e;
+    margin-bottom: 20px;
+  }
+
+  .btn-book {
+    display: inline-block;
+    padding: 12px 18px;
+    background: #bf8d3b;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.2s ease;
+
+    &:hover {
+      background: #a8752d;
     }
   }
 }
 
-.room-info-box {
-  background: #fff6e7;
-  padding: 30px;
-  text-align: center;
-  border-radius: 12px;
-  margin: 40px auto;
-  max-width: 400px;
+/* ----- RESPONSIVE ----- */
+@media (max-width: 900px) {
+  .room-layout {
+    flex-direction: column;
+  }
 
-  .price {
-    color: #b57a17;
-    font-size: 26px;
-    margin-bottom: 20px;
+  .room-price-box {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
   }
 }

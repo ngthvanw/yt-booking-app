@@ -25,6 +25,8 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/users", userRoutes);
 
 
+
+
 // setup production
 if (process.env.NODE_ENV === "production") {
   const publicpath = path.join(__dirname, ".", "build");

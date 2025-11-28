@@ -2,31 +2,21 @@ import "./gallery.scss";
 import { useState } from "react";
 
 const Gallery = ({ images }) => {
-  const [current, setCurrent] = useState(0);
-
-  const next = () => {
-    setCurrent((current + 1) % images.length);
-  };
-
-  const prev = () => {
-    setCurrent((current - 1 + images.length) % images.length);
-  };
+  const [active, setActive] = useState(0);
 
   return (
     <div className="gallery">
       <div className="gallery-main">
-        <img src={images[current]} alt="room" />
-        <button className="prev" onClick={prev}>‹</button>
-        <button className="next" onClick={next}>›</button>
+        <img src={images[active]} alt="room" />
       </div>
 
       <div className="gallery-thumbs">
-        {images.map((img, index) => (
+        {images.map((img, i) => (
           <img
-            key={index}
+            key={i}
             src={img}
-            className={current === index ? "active" : ""}
-            onClick={() => setCurrent(index)}
+            alt=""
+            onClick={() => setActive(i)}
           />
         ))}
       </div>

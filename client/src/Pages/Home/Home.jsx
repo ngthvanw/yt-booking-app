@@ -84,13 +84,14 @@ const Home = () => {
 
       {/* GALLERY */}
       <section className="gallery">
-        <div className="gallery-grid">
+        <div className="container">
           <img src="/gallery/g1.jpg" alt="" />
           <img src="/gallery/g2.jpg" alt="" />
           <img src="/gallery/g3.jpg" alt="" />
           <img src="/gallery/g4.jpg" alt="" />
           <img src="/gallery/g5.jpg" alt="" />
           <img src="/gallery/g6.jpg" alt="" />
+          
         </div>
       </section>
     </div>

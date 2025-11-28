@@ -130,3 +130,41 @@
     }
   }
 }
+.home-gallery {
+  width: 100%;
+  padding: 20px 0;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);   // 3 cột
+  gap: 12px;                               // khoảng cách giữa hình
+
+  img {
+    width: 100%;
+    height: 260px;                         // cố định chiều cao để hình thẳng hàng
+    object-fit: cover;                     // cắt cho đẹp, không méo
+    border-radius: 8px;
+    display: block;
+  }
+}
+.gallery.fullwidth {
+  width: 100vw;        // TRẢ GALLERY VỀ FULL MÀN HÌNH
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;  // PHÁ CONTAINER
+  margin-right: -50vw;
+  padding: 20px 0;
+
+  .gallery-grid {
+    display: grid;
+  grid-template-columns: repeat(5, 1fr); // 5 cột cho căng đều
+  gap: 10px;
+  }
+
+  img {
+   width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+}
