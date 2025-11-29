@@ -1,4 +1,5 @@
 import "./app.styles.scss";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
@@ -10,6 +11,7 @@ import Room from "./Pages/Room/Room";
 import Rooms from "./Pages/Rooms/Rooms";
 import EditRoom from "./Pages/EditRoom/EditRoom";
 import Booking from "./Pages/Booking/Booking";
+
 const App = () => {
   return (
     <div>

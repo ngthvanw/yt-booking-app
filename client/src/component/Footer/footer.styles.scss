@@ -1,0 +1,75 @@
+.info-footer {
+  background: #001545;
+  color: #ffffff;
+  padding: 50px 0 25px;
+  font-family: "Poppins", sans-serif;
+
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 30px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .col {
+    p {
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .brand {
+      font-family: "Playfair Display", serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .desc {
+      margin-bottom: 18px;
+      opacity: 0.85;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      color: #ffdf7e;
+    }
+
+    .highlight {
+      color: #ffdf7e;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .social {
+      display: flex;
+      gap: 14px;
+      margin-top: 6px;
+
+      i {
+        font-size: 20px;
+        opacity: 0.95;
+      }
+    }
+  }
+
+  .footer-bottom {
+    text-align: center;
+    padding-top: 18px;
+    font-size: 13px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    opacity: 0.8;
+  }
+}

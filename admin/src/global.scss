@@ -1,0 +1,106 @@
+// ===== GLOBAL PREMIUM ADMIN STYLE =====
+
+// Font
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+// Colors
+$primary: #3b82f6;
+$primary-dark: #2563eb;
+$bg-light: #f7f8fa;
+$card-bg: #ffffff;
+$text-dark: #1f2937;
+$text-light: #6b7280;
+$border: #e5e7eb;
+
+// Smooth shadow
+$shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+// Global container
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+}
+
+// Heading format
+.heading {
+  font-size: 30px;
+  font-weight: 700;
+  color: $text-dark;
+  margin-bottom: 25px;
+
+  &.center {
+    text-align: center;
+  }
+}
+
+// Button
+button,
+.cta-wrapper a {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: $primary;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  transition: 0.25s;
+
+  &:hover {
+    background: $primary-dark;
+  }
+
+  &.danger {
+    background: #ef4444;
+
+    &:hover {
+      background: #dc2626;
+    }
+  }
+}
+
+// Input group
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+
+  label {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  input,
+  textarea {
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid $border;
+    background: #fff;
+    font-size: 15px;
+    outline: none;
+
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+}
+
+// Card UI
+.card {
+  background: $card-bg;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: $shadow;
+}

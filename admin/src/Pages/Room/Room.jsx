@@ -53,7 +53,7 @@ const Room = () => {
             <div className="text-wrapper">
               <h1 className="heading center"> {room.name} </h1>
               <p> {room.desc} </p>
-              <h2> ${room.price.toFixed(2)} </h2>
+              <h2> ${room.price}₫  </h2>
             </div>
 
             {user && user.isAdmin ? (

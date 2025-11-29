@@ -1,38 +1,214 @@
-#room {
-  .heading {
-    text-transform: capitalize;
+#room-detail {
+  background: #f5f7fa;
+  padding: 40px 0 60px;
+
+  .container {
+    max-width: 1250px;
+    margin: auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 35px;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+    }
   }
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-  }
-  .text-wrapper {
-    text-align: center;
-  }
-  .img-wrapper {
-    width: 100%;
-    height: 70vh;
-    margin-bottom: 1rem;
-  }
-  .cta-wrapper {
-    margin-top: 1rem;
-    padding-bottom: 2rem;
-    text-align: center;
-    a {
-      display: inline-block;
-      padding: 1rem 2rem;
-      background-color: black;
-      color: white;
-      margin-right: 1rem;
+
+  /* ===============================
+        GALLERY GIỐNG BOOKING
+     =============================== */
+  .carousel {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 260px 260px;
+    gap: 12px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
     }
 
-    button {
-      background-color: red;
-      outline: none;
-      border: none;
-      padding: 1rem 2rem;
-      color: white;
-      font-weight: 90;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        transform: scale(1.03);
+      }
+    }
+
+    img:first-child {
+      grid-row: span 2;
+      height: 532px;
     }
   }
+
+  /* ===============================
+      INFO BOX (GIỐNG BOOKING)
+     =============================== */
+  .info-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 14px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0px 4px 14px rgba(0,0,0,0.08);
+    height: max-content;
+    position: sticky;
+    top: 30px;
+
+    .title {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+    }
+
+    .desc {
+      font-size: 15px;
+      color: #444;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .price-box {
+      margin: 20px 0;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+
+      .price {
+        font-size: 30px;
+        font-weight: 700;
+        color: #d9534f;
+      }
+
+      .night {
+        color: #666;
+        font-size: 15px;
+      }
+    }
+
+    .book-btn {
+      display: block;
+      width: 100%;
+      padding: 14px 0;
+      text-align: center;
+      background: #0071c2;
+      color: #fff;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.2s;
+
+      &:hover {
+        background: #005999;
+      }
+    }
+    
+  }
+  .zoom-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+
+  &.show {
+    display: flex;
+  }
+
+  img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgba(255,255,255,0.3);
+  }
+
+  .close-zoom {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    font-size: 50px;
+    color: white;
+    cursor: pointer;
+    font-weight: 300;
+
+    &:hover {
+      color: #ddd;
+    }
+  }
+}
+.zoom-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+
+  &.show {
+    display: flex;
+  }
+
+  img {
+    max-width: 85%;
+    max-height: 85%;
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgba(255,255,255,0.3);
+  }
+
+  .close-zoom {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    font-size: 46px;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+    &:hover { opacity: 0.7; }
+  }
+
+  .zoom-prev,
+  .zoom-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 60px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    transition: 0.2s;
+    user-select: none;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+
+  .zoom-prev {
+    left: 40px;
+  }
+
+  .zoom-next {
+    right: 40px;
+  }
+}
+
+
+
 }

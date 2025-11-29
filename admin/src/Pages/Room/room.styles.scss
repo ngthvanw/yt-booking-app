@@ -1,32 +1,33 @@
-#room {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+@import "../../global.scss";
 
-  .container {
-    width: 100%;
-    max-width: 1200px;   /* tăng lên 1200px */
-    margin: 0 auto;
-    padding: 0;
-  }
+#room {
+  padding: 40px 0;
 
   .img-wrapper {
-    width: 100%;
-    margin: 0;
+    margin-bottom: 25px;
+
+    img {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: $shadow;
+    }
   }
 
   .text-wrapper {
-    margin-top: 20px;
+    @extend .card;
     text-align: center;
 
-    h1 {
-      font-size: 28px;
-      margin-bottom: 8px;
+    p {
+      color: $text-light;
+      margin-bottom: 10px;
+      font-size: 15px;
     }
 
     h2 {
-      font-size: 24px;
-      margin-top: 5px;
+      margin-top: 10px;
+      font-size: 22px;
+      font-weight: 700;
+      color: $primary;
     }
   }
 
@@ -34,6 +35,12 @@
     margin-top: 20px;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
+
+    a,
+    button {
+      width: 150px;
+      text-align: center;
+    }
   }
 }

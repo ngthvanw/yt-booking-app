@@ -1,0 +1,21 @@
+@import "../../global.scss";
+
+.container {
+  padding: 40px 0;
+
+  .form-wrapper {
+    @extend .card;
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+
+    form {
+      margin-top: 10px;
+
+      button {
+        width: 100%;
+        margin-top: 12px;
+      }
+    }
+  }
+}

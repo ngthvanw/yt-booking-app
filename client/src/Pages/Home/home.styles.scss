@@ -1,5 +1,105 @@
 #home {
-  img {
-    width: 100%;
+  font-family: "Poppins", sans-serif;
+
+  .hero-banner {
+    position: relative;
+    height: 80vh;
+
+    .banner-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(60%);
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+      max-width: 650px;
+
+      .hero-title {
+        font-size: 52px;
+        font-weight: 700;
+      }
+
+      .hero-subtitle {
+        font-size: 18px;
+        margin-top: 10px;
+        opacity: 0.9;
+      }
+
+      .hero-btn {
+        display: inline-block;
+        margin-top: 28px;
+        padding: 12px 30px;
+        background: linear-gradient(135deg, #b48a2b, #d4b676);
+        border-radius: 8px;
+        text-decoration: none;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+        transition: 0.3s;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 20px rgba(180, 138, 43, 0.4);
+        }
+      }
+    }
+  }
+
+  .home-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+
+    .section-title {
+      text-align: center;
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 40px;
+    }
+
+    .rooms-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 28px;
+
+      .room-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        text-decoration: none;
+        color: #111;
+        transition: 0.25s;
+
+        &:hover {
+          transform: translateY(-8px);
+        }
+
+        img {
+          width: 100%;
+          height: 220px;
+          object-fit: cover;
+        }
+
+        h3 {
+          font-size: 20px;
+          padding: 16px;
+        }
+
+        .price {
+          padding: 0 16px 16px;
+          color: #b48a2b;
+          font-size: 17px;
+          font-weight: 600;
+        }
+      }
+    }
   }
 }

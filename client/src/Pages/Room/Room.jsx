@@ -1,57 +1,107 @@
 import "./room.styles.scss";
 import { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { reset, deleteRoom } from "../../features/room/roomSlice";
-import Carousel from "../../component/Carousel/Carousel";
+import { useParams, Link } from "react-router-dom";
 
 const Room = () => {
-  const { isSuccess } = useSelector((state) => state.room);
   const { id } = useParams();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [room, setRoom] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const getRoom = async () => {
-      try {
-        const res = await fetch(`/api/rooms/${id}`);
-
-        if (res.ok) {
-          const data = await res.json();
-          setRoom(data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
+    const fetchRoom = async () => {
+      const res = await fetch(`/api/rooms/${id}`);
+      const data = await res.json();
+      setRoom(data);
     };
-    getRoom();
-  }, []);
-  const handleDelete = () => {
-    dispatch(deleteRoom(id));
-  };
+    fetchRoom();
+  }, [id]);
+
+  // ==========================
+  // ZOOM + NEXT PREV
+  // ==========================
+  useEffect(() => {
+    if (!room) return;
+
+    const popup = document.getElementById("imgPopup");
+    const popupImg = document.getElementById("zoomedImg");
+    const closeBtn = document.querySelector(".close-zoom");
+    const nextBtn = document.querySelector(".zoom-next");
+    const prevBtn = document.querySelector(".zoom-prev");
+
+    const openPopup = (index) => {
+      setCurrentIndex(index);
+      popupImg.src = room.img[index];
+      popup.classList.add("show");
+    };
+
+    // click ảnh để mở popup
+    document.querySelectorAll(".carousel img").forEach((img, index) => {
+      img.onclick = () => openPopup(index);
+    });
+
+    // đóng popup
+    closeBtn.onclick = () => popup.classList.remove("show");
+
+    // click ra ngoài
+    popup.onclick = (e) => {
+      if (e.target === popup) popup.classList.remove("show");
+    };
+
+    // next
+    nextBtn.onclick = () => {
+      const nextIndex = (currentIndex + 1) % room.img.length;
+      setCurrentIndex(nextIndex);
+      popupImg.src = room.img[nextIndex];
+    };
+
+    // prev
+    prevBtn.onclick = () => {
+      const prevIndex =
+        (currentIndex - 1 + room.img.length) % room.img.length;
+      setCurrentIndex(prevIndex);
+      popupImg.src = room.img[prevIndex];
+    };
+  }, [room, currentIndex]);
+
+  if (!room) return <div className="room-loading">Đang tải...</div>;
 
   return (
-    <div id="room">
+    <div id="room-detail">
       <div className="container">
-        {room ? (
-          <div>
-            <div className="img-wrapper">
-              <Carousel data={room.img} />
+        {/* GALLERY */}
+        <div className="carousel">
+          {room.img.map((src, i) => (
+            <img key={i} src={src} alt={room.name} />
+          ))}
+        </div>
 
-              {/* <img src={room.img[0]} alt="" /> */}
-            </div>
-            <div className="text-wrapper">
-              <h1 className="heading center"> {room.name} </h1>
-              <p> {room.desc} </p>
-              <h2> ${room.price.toFixed(2)} </h2>
-            </div>
+        {/* INFO BOX */}
+        <div className="info-box">
+          <h1 className="title">{room.name}</h1>
+          <p className="desc">{room.desc}</p>
 
-            <div className="cta-wrapper">
-              <Link to={`/bookings/${room._id}`}>Book Now</Link>
-            </div>
+          <div className="price-box">
+            <span className="price">{room.price}₫</span>
+            <span className="night">/đêm</span>
           </div>
-        ) : null}
+
+          <Link to={`/bookings/${room._id}`} className="book-btn">
+            Đặt phòng
+          </Link>
+        </div>
+      </div>
+
+      {/* POPUP ZOOM */}
+      <div id="imgPopup" className="zoom-popup">
+        <span className="close-zoom">×</span>
+
+        {/* Prev */}
+        <span className="zoom-prev">❮</span>
+
+        <img id="zoomedImg" src="" alt="zoomed" />
+
+        {/* Next */}
+        <span className="zoom-next">❯</span>
       </div>
     </div>
   );

@@ -106,7 +106,7 @@ const CreateRoom = () => {
           <div className="input-group">
             <label>Price</label>
             <input
-              type="number"
+              type="text"
               name="price"
               value={price}
               placeholder="Enter price"

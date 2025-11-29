@@ -1,0 +1,87 @@
+@import "../../global.scss";
+
+/* Wrapper tổng */
+#rooms-page {
+  padding: 40px 0;
+
+  .heading.center {
+    margin-bottom: 30px;
+  }
+
+  /* Layout */
+  .room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  /* CARD của từng phòng */
+  .room-card {
+    @extend .card;
+    overflow: hidden;
+    transition: 0.25s ease;
+    padding: 0;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Ảnh carousel */
+    .img-wrapper,
+    img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 14px 14px 0 0 !important;
+    }
+
+    /* ===== CHỮ ĐẸP ===== */
+    .info {
+      padding: 16px 20px;
+
+      h3 {
+        font-size: 20px;
+        font-weight: 700;
+        color: $text-dark;
+        margin-bottom: 8px;
+        line-height: 1.3;
+      }
+
+      p {
+        font-size: 15px;
+        color: $text-light;
+        margin-bottom: 10px;
+      }
+
+      .price {
+        font-weight: 700;
+        color: $primary;
+        font-size: 18px;
+        margin-bottom: 14px;
+      }
+    }
+
+    /* CTA View */
+    .cta {
+      padding: 0 20px 20px;
+
+      a {
+        display: inline-block;
+        padding: 10px 16px;
+        background: $primary;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 10px;
+        text-decoration: none;
+
+        &:hover {
+          background: $primary-dark;
+        }
+      }
+    }
+  }
+}

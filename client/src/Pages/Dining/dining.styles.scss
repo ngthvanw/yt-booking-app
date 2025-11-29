@@ -1,0 +1,83 @@
+#dining {
+  font-family: "Poppins", sans-serif;
+
+  .dining-banner {
+    position: relative;
+    height: 60vh;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(60%);
+    }
+
+    .overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+
+      .title {
+        font-size: 48px;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        margin-top: 10px;
+        font-size: 20px;
+        opacity: 0.9;
+      }
+    }
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 40px;
+  }
+
+  .dining-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 32px;
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+      transition: 0.3s;
+
+      &:hover {
+        transform: translateY(-6px);
+      }
+
+      img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+      }
+
+      h3 {
+        font-size: 22px;
+        margin: 18px;
+      }
+
+      p {
+        font-size: 15px;
+        color: #555;
+        padding: 0 18px 20px;
+      }
+    }
+  }
+}

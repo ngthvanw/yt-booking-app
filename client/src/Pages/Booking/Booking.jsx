@@ -1,16 +1,15 @@
+import "./booking.styles.scss";
 import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { createBooking, reset } from "../../features/booking/bookingSlice";
-import { useDispatch, useSelector } from "react-redux";
 
 const Booking = () => {
   const { id: roomId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { isSuccess } = useSelector((state) => state.booking);
 
-  const [room, setRoom] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,99 +17,83 @@ const Booking = () => {
     checkOutDate: "",
   });
 
-  const { name, email, checkInDate, checkOutDate } = formData;
-
-  useEffect(() => {
-    const getRoom = async () => {
-      try {
-        const res = await fetch(`/api/rooms/${roomId}`);
-        const data = await res.json();
-        if (!res.ok) {
-          return console.log("there was a problem getting room");
-        }
-        return setRoom(data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    getRoom();
-  }, []);
-
   useEffect(() => {
     if (isSuccess) {
       navigate("/success");
       dispatch(reset());
     }
-  }, [isSuccess]);
+  }, [isSuccess, navigate, dispatch]);
 
   const handleChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const dataToSubmit = {
-      roomId,
-      name,
-      email,
-      checkInDate,
-      checkOutDate,
-    };
-
-    dispatch(createBooking(dataToSubmit));
+    dispatch(createBooking({ roomId, ...formData }));
   };
 
   return (
-    <div>
-      <h1 className="heading center">Book Now</h1>
-      <div className="form-wrapper">
-        <form onSubmit={handleSubmit}>
+    <div id="booking-page">
+      <div className="container">
+        <h1 className="title">Đặt phòng</h1>
+
+        <form className="booking-form" onSubmit={handleSubmit}>
           <div className="input-group">
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">Họ và tên</label>
             <input
-              type="text"
+              id="name"
               name="name"
-              value={name}
-              placeholder="Enter full name"
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="name">Email</label>
-            <input
               type="text"
+              placeholder="Nhập họ tên của bạn"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
               name="email"
-              value={email}
-              placeholder="Enter your email address"
+              type="email"
+              placeholder="Nhập email của bạn"
+              value={formData.email}
               onChange={handleChange}
+              required
             />
           </div>
 
-          <div className="input-group">
-            <label htmlFor="name">Check In Date</label>
-            <input
-              type="date"
-              name="checkInDate"
-              value={checkInDate}
-              onChange={handleChange}
-            />
+          <div className="row">
+            <div className="input-group">
+              <label htmlFor="checkInDate">Ngày nhận phòng</label>
+              <input
+                id="checkInDate"
+                name="checkInDate"
+                type="date"
+                value={formData.checkInDate}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="checkOutDate">Ngày trả phòng</label>
+              <input
+                id="checkOutDate"
+                name="checkOutDate"
+                type="date"
+                value={formData.checkOutDate}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
 
-          <div className="input-group">
-            <label htmlFor="name">Check Out Date</label>
-            <input
-              type="date"
-              name="checkOutDate"
-              value={checkOutDate}
-              onChange={handleChange}
-            />
-          </div>
-          <button type="submit">Submit</button>
+          <button type="submit" className="submit-btn">
+            Xác nhận đặt phòng
+          </button>
         </form>
       </div>
     </div>
