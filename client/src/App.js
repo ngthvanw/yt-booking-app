@@ -10,13 +10,14 @@ import Dining from "./Pages/Dining/Dining";
 import Spa from "./Pages/Spa/Spa";
 import About from "./Pages/About/About";
 import Footer from "./component/Footer/Footer";
+import Chatbot from "./component/Chatbot/Chatbot";
 
 const App = () => {
   return (
     <div>
       <Router>
         <Header />
-
+        <Chatbot />  
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/rooms" element={<Rooms />} />
