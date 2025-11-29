@@ -26,7 +26,10 @@ const Dashboard = () => {
   return (
     <div>
       <h1 className="heading center">Dashboard</h1>
-      {bookings.length > 0 ? <BookingList data={bookings} /> : null}
+      {Array.isArray(bookings) && bookings.length > 0 && (
+  <BookingList data={bookings} />
+)}
+
     </div>
   );
 };

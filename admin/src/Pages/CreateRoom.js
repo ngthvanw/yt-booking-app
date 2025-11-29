@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { uploadImage } from "../helper/utils";
 import { createRoom, reset } from "../features/room/roomSlice";
 
-// create room
 const CreateRoom = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -12,23 +11,24 @@ const CreateRoom = () => {
   const { user } = useSelector((state) => state.auth);
   const { isSuccess } = useSelector((state) => state.room);
 
-  const [files, setFiles] = useState("");
+  const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
-    name: "test",
-    price: 200,
-    desc: "dafdafadfa",
-    roomNumbers: "401, 203, 232, 234",
+    name: "",
+    price: "",
+    desc: "",
+    roomNumbers: "",
   });
 
   const { name, price, desc, roomNumbers } = formData;
 
+  // Check login
   useEffect(() => {
     if (!user) {
-      // navigate to login
       navigate("/login");
     }
   }, [user]);
 
+  // Redirect when created successfully
   useEffect(() => {
     if (isSuccess) {
       dispatch(reset());
@@ -36,36 +36,39 @@ const CreateRoom = () => {
     }
   }, [isSuccess]);
 
+  // Handle text change
   const handleChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
+    setFormData((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
     }));
   };
 
-  // handle File change
+  // Handle file change
   const handleFileChange = (e) => {
     setFiles(e.target.files);
   };
 
+  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!name || !price || !roomNumbers) {
+      alert("Please fill all required fields");
       return;
     }
 
-    const roomArray = roomNumbers.split(",").map((item) => {
-      return {
-        number: parseInt(item),
-        unavailableDates: [],
-      };
-    });
+    // Convert roomNumbers into objects
+    const roomArray = roomNumbers.split(",").map((num) => ({
+      number: parseInt(num.trim()),
+      unavailableDates: [],
+    }));
 
+    // Upload all images
     let list = [];
     list = await Promise.all(
       Object.values(files).map(async (file) => {
-        const url = await uploadImage(file);
+        const url = await uploadImage(file); // <-- trả về "/uploads/...png"
         return url;
       })
     );
@@ -78,9 +81,7 @@ const CreateRoom = () => {
       img: list,
     };
 
-    // dispatch createRoom function
     dispatch(createRoom(dataToSubmit));
-    // let dataTosubmit = {name, price, desc, roomNumbers, img};
   };
 
   return (
@@ -89,8 +90,9 @@ const CreateRoom = () => {
 
       <div className="form-wrapper">
         <form onSubmit={handleSubmit}>
+          {/* NAME */}
           <div className="input-group">
-            <label htmlFor="name">Name</label>
+            <label>Name</label>
             <input
               type="text"
               name="name"
@@ -100,41 +102,46 @@ const CreateRoom = () => {
             />
           </div>
 
+          {/* PRICE */}
           <div className="input-group">
-            <label htmlFor="price">Price</label>
+            <label>Price</label>
             <input
-              type="text"
+              type="number"
               name="price"
               value={price}
-              placeholder="Enter room name"
+              placeholder="Enter price"
               onChange={handleChange}
             />
           </div>
 
+          {/* DESCRIPTION */}
           <div className="input-group">
-            <label htmlFor="desc">Description</label>
+            <label>Description</label>
             <textarea
               name="desc"
-              onChange={handleChange}
               value={desc}
+              onChange={handleChange}
+              placeholder="Room description"
             ></textarea>
           </div>
 
+          {/* ROOM NUMBERS */}
           <div className="input-group">
-            <label htmlFor="desc">Room Numbers</label>
+            <label>Room Numbers</label>
             <textarea
               name="roomNumbers"
-              onChange={handleChange}
               value={roomNumbers}
-              placeholder="enter room numbers seperated by commas eg: 202, 203, 204, 400"
+              onChange={handleChange}
+              placeholder="Separate by commas (ex: 101, 102, 201)"
             ></textarea>
           </div>
 
+          {/* IMAGES */}
           <div className="input-group">
-            <label htmlFor="name">Images</label>
+            <label>Images</label>
             <input
               type="file"
-              name="file"
+              name="image"     // <-- FIX QUAN TRỌNG!!!
               multiple
               onChange={handleFileChange}
             />

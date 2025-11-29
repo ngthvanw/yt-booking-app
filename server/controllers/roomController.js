@@ -1,43 +1,47 @@
 const Room = require("../models/roomModel");
 
-const getRooms = async (req, res) => {
+// GET /api/rooms
+const getRooms = async (req, res, next) => {
   try {
     const rooms = await Room.find();
-
-    if (!rooms) {
-      res.status(400);
-      throw new Error("rooms not found");
-    }
     return res.status(200).json(rooms);
   } catch (error) {
     next(error);
   }
 };
 
-// create room
+// POST /api/rooms
 const createRoom = async (req, res, next) => {
   try {
-    // todo validate data from  user with joi
-    const room = await Room.create(req.body);
+    console.log("REQ BODY:", req.body);
 
-    if (!room) {
-      res.status(400);
-      throw new Error("there was a problem creating");
+    const { name, price, desc, img, roomNumbers } = req.body;
+
+    if (!name || !price || !roomNumbers) {
+      return res.status(400).json({ message: "Missing fields" });
     }
-    const rooms = await Room.find();
-    return res.status(201).json(rooms);
+
+    const room = await Room.create({
+      name,
+      price,
+      desc,
+      img,          // <- QUAN TRỌNG
+      roomNumbers,
+    });
+
+    return res.status(201).json(room); // trả về room mới tạo
   } catch (error) {
     next(error);
   }
 };
 
-// get single room
+// GET /api/rooms/:id
 const getRoom = async (req, res, next) => {
   try {
     const room = await Room.findById(req.params.id);
 
     if (!room) {
-      res.status(400);
+      res.status(404);
       throw new Error("room not found");
     }
 
@@ -47,14 +51,12 @@ const getRoom = async (req, res, next) => {
   }
 };
 
-// update rooms
+// PUT /api/rooms/:id
 const updateRoom = async (req, res, next) => {
   try {
     const updatedRoom = await Room.findByIdAndUpdate(
       req.params.id,
-      {
-        $set: req.body,
-      },
+      { $set: req.body },
       { new: true }
     );
 
@@ -62,18 +64,21 @@ const updateRoom = async (req, res, next) => {
       res.status(400);
       throw new Error("cannot update room");
     }
+
     return res.status(200).json(updatedRoom);
   } catch (error) {
     next(error);
   }
 };
 
-const deleteRoom = async (req, res) => {
+// DELETE /api/rooms/:id
+const deleteRoom = async (req, res, next) => {
   try {
     const room = await Room.findByIdAndDelete(req.params.id);
+
     if (!room) {
       res.status(400);
-      throw new Error("room not deleteed");
+      throw new Error("room not deleted");
     }
 
     return res.status(200).json({ id: req.params.id });

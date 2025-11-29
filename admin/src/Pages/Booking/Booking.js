@@ -8,7 +8,6 @@ import {
 } from "../../features/booking/bookingSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-// booking
 const Booking = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -26,8 +25,10 @@ const Booking = () => {
       navigate("/dashboard");
     }
   }, [isSuccess, isLoading, message, isError]);
+
   useEffect(() => {
     dispatch(reset());
+
     const getBooking = async () => {
       try {
         const res = await fetch(`/api/bookings/${id}`);
@@ -37,8 +38,9 @@ const Booking = () => {
         console.log(error.message);
       }
     };
+
     getBooking();
-  }, []);
+  }, [id, dispatch]);
 
   const handleDelete = () => {
     dispatch(deleteBooking(id));
@@ -47,23 +49,25 @@ const Booking = () => {
   const handleConfirm = () => {
     dispatch(confirmBooking(id));
   };
+
   return (
     <div id="booking">
       <h1 className="heading center">Booking</h1>
 
+      {!booking && <div>Loading...</div>}
+
       {booking && (
         <div className="content-wrapper">
           <div className="text-wrapper">
-            <h1 className="heading"> {booking.name} </h1>
-
-            <p className="email"> {booking.roomId.name} </p>
-            <p className="email"> {booking.email} </p>
-            <p className="email"> checkIn: {booking.checkInDate} </p>
-            <p className="email"> checkout: {booking.checkOutDate} </p>
+            <h1 className="heading"> {booking?.name} </h1>
+            <p className="email"> Room: {booking?.roomId?.name} </p>
+            <p className="email"> Email: {booking?.email} </p>
+            <p className="email"> Check In: {booking?.checkInDate} </p>
+            <p className="email"> Check Out: {booking?.checkOutDate} </p>
           </div>
 
           <div className="cta-wrapper">
-            <button onClick={handleConfirm}>confirm</button>
+            <button onClick={handleConfirm}>Confirm</button>
             <button className="danger" onClick={handleDelete}>
               Delete
             </button>

@@ -1,29 +1,37 @@
 const dotenv = require("dotenv").config();
 const express = require("express");
-const { errorHandler } = require("./middleware/errorHandler");
 const path = require("path");
-const app = express();
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+
 const connectDB = require("./config/db");
+const { errorHandler } = require("./middleware/errorHandler");
+
 const roomRoutes = require("./routes/roomRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const userRoutes = require("./routes/userRoutes");
-const cookieParser = require("cookie-parser");
+const uploadRoutes = require("./routes/uploadRoutes");
 
+const app = express();
 const port = process.env.PORT || 5000;
 
-// connect to database
+// connect DB
 connectDB();
 
-// setup middlewares
+// middlewares
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
-// setup routes
+// routes API
 app.use("/api/rooms", roomRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/upload", uploadRoutes);
 
-// setup production
+// phục vụ file ảnh
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// production build (nếu có)
 if (process.env.NODE_ENV === "production") {
   const publicpath = path.join(__dirname, ".", "build");
   const filePath = path.resolve(__dirname, ".", "build", "index.html");
@@ -36,4 +44,5 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(errorHandler);
 
-app.listen(port, () => console.log(`listening on on port ${port}`));
+app.listen(port, () => console.log(`listening on port ${port}`));
+console.log("BACKEND ĐANG CHẠY TẠI:", __dirname);

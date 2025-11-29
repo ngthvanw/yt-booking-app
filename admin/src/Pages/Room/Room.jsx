@@ -46,7 +46,7 @@ const Room = () => {
         {room ? (
           <div>
             <div className="img-wrapper">
-              <Carousel data={room.img} />
+              <Carousel data={room.img} height={500}  />
 
               {/* <img src={room.img[0]} alt="" /> */}
             </div>

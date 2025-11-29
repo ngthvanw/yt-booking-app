@@ -8,76 +8,67 @@ const initialState = {
   message: "",
 };
 
-// create room
+// ======================= CREATE ROOM =======================
 export const createRoom = createAsyncThunk(
   "room/create",
   async (roomData, thunkApi) => {
     try {
       const res = await fetch("/api/rooms", {
-        headers: {
-          "Content-Type": "application/json",
-        },
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(roomData),
       });
 
-      if (!res.ok) {
-        const error = await res.json();
-        return thunkApi.rejectWithValue(error);
-      }
-
       const data = await res.json();
-      return data;
+      if (!res.ok) return thunkApi.rejectWithValue(data);
+
+      return data; // trả về room mới
     } catch (error) {
-      console.log(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
 );
 
-// get all rooms
-export const getRooms = createAsyncThunk("room/getall", async (_, thunkApi) => {
-  try {
-    const res = await fetch("/api/rooms");
-    if (!res.ok) {
-      const error = await res.json();
-      return thunkApi.rejectWithValue(error);
+// ======================= GET ALL ROOMS =======================
+export const getRooms = createAsyncThunk(
+  "room/getAll",
+  async (_, thunkApi) => {
+    try {
+      const res = await fetch("/api/rooms");
+      const data = await res.json();
+
+      if (!res.ok) return thunkApi.rejectWithValue(data);
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
     }
-
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error.message);
-    return thunkApi.rejectWithValue(error.message);
   }
-});
+);
 
-// update room
+// ======================= UPDATE ROOM =======================
 export const updateRoom = createAsyncThunk(
-  "/room/update",
+  "room/update",
   async (roomData, thunkApi) => {
     try {
       const { roomId, ...rest } = roomData;
+
       const res = await fetch(`/api/rooms/${roomId}`, {
-        headers: {
-          "Content-type": "application/json",
-        },
         method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(rest),
       });
+
       const data = await res.json();
-      if (!res.ok) {
-        return thunkApi.rejectWithValue(data);
-      }
+      if (!res.ok) return thunkApi.rejectWithValue(data);
 
       return data;
     } catch (error) {
-      console.log(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
 );
 
+// ======================= DELETE ROOM =======================
 export const deleteRoom = createAsyncThunk(
   "room/delete",
   async (roomId, thunkApi) => {
@@ -85,44 +76,47 @@ export const deleteRoom = createAsyncThunk(
       const res = await fetch(`/api/rooms/${roomId}`, {
         method: "DELETE",
       });
+
       const data = await res.json();
-      if (!res.ok) {
-        return thunkApi.rejectWithValue(data);
-      }
-      return data;
+      if (!res.ok) return thunkApi.rejectWithValue(data);
+
+      return data; // { id: ... }
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
   }
 );
 
+// ======================= SLICE =======================
 export const roomSlice = createSlice({
   name: "room",
   initialState,
   reducers: {
     reset: (state) => {
       state.isLoading = false;
-      state.isError = false;
       state.isSuccess = false;
+      state.isError = false;
       state.message = "";
     },
   },
   extraReducers: (builder) => {
-    // add cases here
     builder
+      // ===== CREATE =====
       .addCase(createRoom.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(createRoom.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.rooms = action.payload;
+        state.rooms.push(action.payload); // thêm phòng mới
       })
       .addCase(createRoom.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
+
+      // ===== GET ALL =====
       .addCase(getRooms.pending, (state) => {
         state.isLoading = true;
       })
@@ -136,27 +130,36 @@ export const roomSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
+
+      // ===== UPDATE =====
       .addCase(updateRoom.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(updateRoom.fulfilled, (state, action) => {
-        state.isSuccess = true;
         state.isLoading = false;
-        state.rooms = action.payload;
+        state.isSuccess = true;
+
+        const index = state.rooms.findIndex(
+          (room) => room._id === action.payload._id
+        );
+        if (index !== -1) state.rooms[index] = action.payload;
       })
       .addCase(updateRoom.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
+
+      // ===== DELETE =====
       .addCase(deleteRoom.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(deleteRoom.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+
         state.rooms = state.rooms.filter(
-          (room) => room._id != action.payload.id
+          (room) => room._id !== action.payload.id
         );
       })
       .addCase(deleteRoom.rejected, (state, action) => {

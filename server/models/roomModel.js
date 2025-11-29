@@ -14,7 +14,7 @@ const roomSchema = new mongoose.Schema({
     required: true,
   },
   img: {
-    type: [String],
+    type: [String], // mảng đường dẫn ảnh
   },
   roomNumbers: {
     type: [

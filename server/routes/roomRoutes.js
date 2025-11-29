@@ -1,4 +1,4 @@
-const { Router } = require("express");
+const express = require("express");
 const {
   getRooms,
   createRoom,
@@ -6,23 +6,19 @@ const {
   updateRoom,
   deleteRoom,
 } = require("../controllers/roomController");
-const { auth } = require("../middleware/authMiddleware");
 
-const router = Router();
+// nếu có middleware auth thì import ở đây
+// const { protect, isAdmin } = require("../middleware/authMiddleware");
 
-// get all rooms
-router.get("/", getRooms);
+const router = express.Router();
 
-// create room
-router.post("/", auth, createRoom);
+router.route("/")
+  .get(getRooms)
+  .post(/*protect, isAdmin,*/ createRoom);
 
-// get single room
-router.get("/:id", getRoom);
-
-//update room
-router.put("/:id", auth, updateRoom);
-
-// delete room
-router.delete("/:id", auth, deleteRoom);
+router.route("/:id")
+  .get(getRoom)
+  .put(/*protect, isAdmin,*/ updateRoom)
+  .delete(/*protect, isAdmin,*/ deleteRoom);
 
 module.exports = router;
