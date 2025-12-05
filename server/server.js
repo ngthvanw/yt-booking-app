@@ -12,6 +12,7 @@ const bookingRoutes = require("./routes/bookingRoutes");
 const userRoutes = require("./routes/userRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const chatRoutes = require("./routes/chat.route");
+const serviceBookingRoutes = require("./routes/serviceBookingRoutes");
 
 
 const app = express();
@@ -31,6 +32,8 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/service-bookings", serviceBookingRoutes);
+
 
 // phục vụ file ảnh
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

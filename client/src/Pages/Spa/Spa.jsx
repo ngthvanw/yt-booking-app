@@ -1,4 +1,5 @@
 import "./spa.styles.scss";
+import { Link } from "react-router-dom";
 
 const Spa = () => {
   return (
@@ -17,29 +18,23 @@ const Spa = () => {
         <h2 className="section-title">Liệu trình của chúng tôi</h2>
 
         <div className="spa-grid">
-          <div className="card">
+          <Link to="/spa/chuyen-sau" className="card">
             <img src="/images/spa1.jpg" alt="Liệu pháp thư giãn chuyên sâu" />
             <h3>Liệu pháp thư giãn chuyên sâu</h3>
-            <p>
-              Giúp giải tỏa căng thẳng, xua tan mệt mỏi và phục hồi năng lượng.
-            </p>
-          </div>
+            <p>Giảm căng thẳng, phục hồi năng lượng.</p>
+          </Link>
 
-          <div className="card">
+          <Link to="/spa/huong-thom" className="card">
             <img src="/images/spa2.jpg" alt="Liệu pháp hương thơm" />
             <h3>Liệu pháp hương thơm</h3>
-            <p>
-              Trải nghiệm tinh dầu thiên nhiên trong không gian thư giãn nhẹ nhàng.
-            </p>
-          </div>
+            <p>Thư giãn với tinh dầu thiên nhiên.</p>
+          </Link>
 
-          <div className="card">
+          <Link to="/spa/da-nong" className="card">
             <img src="/images/spa3.jpg" alt="Massage đá nóng" />
             <h3>Massage đá nóng</h3>
-            <p>
-              Thư giãn sâu với liệu trình đá nóng truyền thống, giúp lưu thông tuần hoàn.
-            </p>
-          </div>
+            <p>Lưu thông khí huyết & giảm đau.</p>
+          </Link>
         </div>
       </div>
     </div>

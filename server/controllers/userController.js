@@ -9,7 +9,6 @@ const getUsers = async (req, res, next) => {
       res.status(400);
       throw new Error("users not found");
     }
-
     return res.status(200).json(users);
   } catch (error) {
     next(error);
@@ -20,23 +19,22 @@ const createUser = async (req, res, next) => {
   try {
     const { password, ...rest } = req.body;
 
-    // generate salt;
     const salt = await bcrypt.genSalt(10);
-    hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     const user = await User.create({
       ...rest,
       password: hashedPassword,
     });
+
     if (!user) {
       res.status(400);
       throw new Error("user not created");
     }
 
-    // hash password before saving to database
+    const { password: pwd, ...userData } = user._doc;
 
-    const { password: userPassword, ...otherDetails } = user._doc;
-
-    return res.status(201).json(otherDetails);
+    return res.status(201).json(userData);
   } catch (error) {
     next(error);
   }
@@ -44,36 +42,33 @@ const createUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
   try {
-    // todo use joi to validate data;
-
     const { email, password } = req.body;
 
-    // get user from database
     const user = await User.findOne({ email });
-
     if (!user) {
       res.status(400);
       throw new Error("user not found");
     }
 
-    // compare the password
-
-    const isCoreect = await bcrypt.compare(password, user.password);
-
-    if (!isCoreect) {
+    const isCorrect = await bcrypt.compare(password, user.password);
+    if (!isCorrect) {
       res.status(400);
       throw new Error("incorrect password");
     }
 
-    // generate token set
-    // set cookie
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+    // vẫn set cookie nếu bạn cần
     res.cookie("jwt", token);
 
-    const { password: userPassword, ...rest } = user._doc;
+    const { password: pwd, ...rest } = user._doc;
+
+    // ⭐⭐⭐ TRẢ TOKEN VỀ CHO FE — QUAN TRỌNG
     return res.status(200).json({
       ...rest,
+      token,
     });
+
   } catch (error) {
     next(error);
   }

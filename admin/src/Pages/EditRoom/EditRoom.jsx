@@ -39,7 +39,6 @@ const EditRoom = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      // navigate to rooms
       dispatch(reset());
       navigate("/rooms");
     }
@@ -75,36 +74,37 @@ const EditRoom = () => {
 
     dispatch(updateRoom(dataToSubmit));
   };
+
   return (
     <div className="container">
-      <h1 className="heading center">Edit Room</h1>
+      <h1 className="heading center">Chỉnh sửa phòng</h1>
 
       <div className="form-wrapper">
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">Tên phòng</label>
             <input
               type="text"
               name="name"
               value={name}
-              placeholder="Enter room name"
+              placeholder="Nhập tên phòng"
               onChange={handleChange}
             />
           </div>
 
           <div className="input-group">
-            <label htmlFor="price">Price</label>
+            <label htmlFor="price">Giá phòng</label>
             <input
               type="text"
               name="price"
               value={price}
-              placeholder="Enter room name"
+              placeholder="Nhập giá phòng"
               onChange={handleChange}
             />
           </div>
 
           <div className="input-group">
-            <label htmlFor="desc">Description</label>
+            <label htmlFor="desc">Mô tả</label>
             <textarea
               name="desc"
               onChange={handleChange}
@@ -113,16 +113,16 @@ const EditRoom = () => {
           </div>
 
           <div className="input-group">
-            <label htmlFor="desc">Room Numbers</label>
+            <label htmlFor="roomNumbers">Số phòng</label>
             <textarea
               name="roomNumbers"
               onChange={handleChange}
               value={roomNumbers}
-              placeholder="enter room numbers seperated by commas eg: 202, 203, 204, 400"
+              placeholder="Nhập danh sách số phòng, ví dụ: 202,203,204..."
             ></textarea>
           </div>
 
-          <button type="submit">Submit</button>
+          <button type="submit">Lưu thay đổi</button>
         </form>
       </div>
     </div>

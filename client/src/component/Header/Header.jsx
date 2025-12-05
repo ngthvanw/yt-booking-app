@@ -1,4 +1,3 @@
-// src/Pages/Header/Header.jsx (hoặc đường dẫn cũ của bạn)
 import "./header.styles.scss";
 import { Link } from "react-router-dom";
 
@@ -11,11 +10,11 @@ const Header = () => {
         </Link>
 
         <nav className="lux-nav">
-          <Link to="/">Home</Link>
-          <Link to="/rooms">Rooms</Link>
-           <Link to="/dining">Dining</Link>
-          <Link to="/spa">Spa</Link>
-          <Link to="/about">About</Link>
+          <Link to="/">Trang Chủ</Link>
+          <Link to="/rooms">Danh Sách Phòng</Link>
+          <Link to="/dining">Ẩm Thực</Link>
+          <Link to="/spa">Spa & Thư Giãn</Link>
+          <Link to="/about">Giới Thiệu</Link>
         </nav>
       </div>
     </header>

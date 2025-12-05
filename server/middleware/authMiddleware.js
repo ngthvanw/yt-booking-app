@@ -2,30 +2,29 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 const auth = async (req, res, next) => {
+  let token;
+
+  // Lấy token từ Header
+  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+
+  // Nếu không có, lấy từ cookie
+  if (!token && req.cookies.jwt) {
+    token = req.cookies.jwt;
+  }
+
+  if (!token) {
+    return res.status(401).json({ message: "Not authorized, no token" });
+  }
+
   try {
-    const token = req.cookies.jwt;
-    if (!token) {
-      return res.status(401).json({ message: "not authorized" });
-    }
-
-    //  verify token
-    const data = jwt.verify(token, process.env.JWT_SECRET);
-
-    const user = await User.findById(data.id);
-
-    if (!user) {
-      return res.status(400).json({ message: "not authorized" });
-    }
-
-    req.user = user;
-
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = await User.findById(decoded.id).select("-password");
     next();
   } catch (error) {
-    console.log(error.message);
-    return res.status(400).json({ message: "no token" });
+    return res.status(401).json({ message: "Not authorized, token failed" });
   }
 };
 
-module.exports = {
-  auth,
-};
+module.exports = auth;

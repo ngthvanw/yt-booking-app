@@ -39,7 +39,7 @@ const Login = () => {
   };
   return (
     <div className="container">
-      <h1 className="heading center">Login</h1>
+      <h1 className="heading center">Đăng nhập</h1>
 
       <div className="form-wrapper">
         <form onSubmit={handleSubmit}>
@@ -48,24 +48,24 @@ const Login = () => {
             <input
               type="email"
               name="email"
-              placeholder="Enter your Email"
+              placeholder="Nhập email của bạn"
               value={email}
               onChange={handleChange}
             />
           </div>
 
           <div className="input-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Mật khẩu</label>
             <input
               type="password"
               name="password"
-              placeholder="Enter password"
+              placeholder="Nhập mật khẩu"
               value={password}
               onChange={handleChange}
             />
           </div>
 
-          <button type="submit">Submit</button>
+          <button type="submit">Đăng nhập</button>
         </form>
       </div>
     </div>

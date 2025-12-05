@@ -1,4 +1,5 @@
 import "./dining.styles.scss";
+import { Link } from "react-router-dom";
 
 const Dining = () => {
   return (
@@ -20,30 +21,23 @@ const Dining = () => {
         <h2 className="section-title">Nhà hàng của chúng tôi</h2>
 
         <div className="dining-grid">
-          <div className="card">
+          <Link to="/dining/royal-signature" className="card">
             <img src="/images/dining1.jpg" alt="Nhà hàng Royal Signature" />
             <h3>Nhà hàng Royal Signature</h3>
-            <p>
-              Ẩm thực Châu Âu – Châu Á được chế biến bởi các đầu bếp giàu kinh nghiệm,
-              mang đến trải nghiệm tinh tế cho mọi giác quan.
-            </p>
-          </div>
+            <p>Ẩm thực Á – Âu tinh tế, phong cách sang trọng.</p>
+          </Link>
 
-          <div className="card">
+          <Link to="/dining/skyline-bar" className="card">
             <img src="/images/dining2.jpg" alt="Skyline Bar & Lounge" />
-            <h3>Skyline Bar &amp; Lounge</h3>
-            <p>
-              Thư giãn cùng cocktail thượng hạng và ngắm nhìn toàn cảnh thành phố về đêm.
-            </p>
-          </div>
+            <h3>Skyline Bar & Lounge</h3>
+            <p>Cocktail thượng hạng & view thành phố tuyệt đẹp.</p>
+          </Link>
 
-          <div className="card">
+          <Link to="/dining/garden-terrace" className="card">
             <img src="/images/dining3.jpg" alt="Garden Terrace Café" />
             <h3>Garden Terrace Café</h3>
-            <p>
-              Không gian ngoài trời thoáng mát, lý tưởng để thưởng thức cà phê hoặc bữa sáng nhẹ.
-            </p>
-          </div>
+            <p>Không gian xanh mát, thư giãn nhẹ nhàng.</p>
+          </Link>
         </div>
       </div>
     </div>

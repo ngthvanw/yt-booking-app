@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { auth } = require("../middleware/authMiddleware");
+const auth = require("../middleware/authMiddleware");  // ⭐ FIX QUAN TRỌNG
 
 const {
   getBookings,

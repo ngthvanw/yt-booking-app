@@ -21,14 +21,14 @@ const CreateRoom = () => {
 
   const { name, price, desc, roomNumbers } = formData;
 
-  // Check login
+  // Kiểm tra đăng nhập
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
   }, [user]);
 
-  // Redirect when created successfully
+  // Chuyển hướng khi tạo thành công
   useEffect(() => {
     if (isSuccess) {
       dispatch(reset());
@@ -36,7 +36,7 @@ const CreateRoom = () => {
     }
   }, [isSuccess]);
 
-  // Handle text change
+  // Xử lý thay đổi text
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -44,31 +44,31 @@ const CreateRoom = () => {
     }));
   };
 
-  // Handle file change
+  // Xử lý thay đổi file
   const handleFileChange = (e) => {
     setFiles(e.target.files);
   };
 
-  // Submit form
+  // Gửi form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!name || !price || !roomNumbers) {
-      alert("Please fill all required fields");
+      alert("Vui lòng điền đầy đủ các trường bắt buộc");
       return;
     }
 
-    // Convert roomNumbers into objects
+    // Chuyển roomNumbers thành object
     const roomArray = roomNumbers.split(",").map((num) => ({
       number: parseInt(num.trim()),
       unavailableDates: [],
     }));
 
-    // Upload all images
+    // Upload toàn bộ ảnh
     let list = [];
     list = await Promise.all(
       Object.values(files).map(async (file) => {
-        const url = await uploadImage(file); // <-- trả về "/uploads/...png"
+        const url = await uploadImage(file);
         return url;
       })
     );
@@ -86,68 +86,68 @@ const CreateRoom = () => {
 
   return (
     <div className="container">
-      <h1 className="heading center">Create Room</h1>
+      <h1 className="heading center">Tạo phòng</h1>
 
       <div className="form-wrapper">
         <form onSubmit={handleSubmit}>
           {/* NAME */}
           <div className="input-group">
-            <label>Name</label>
+            <label>Tên phòng</label>
             <input
               type="text"
               name="name"
               value={name}
-              placeholder="Enter room name"
+              placeholder="Nhập tên phòng"
               onChange={handleChange}
             />
           </div>
 
           {/* PRICE */}
           <div className="input-group">
-            <label>Price</label>
+            <label>Giá phòng</label>
             <input
               type="text"
               name="price"
               value={price}
-              placeholder="Enter price"
+              placeholder="Nhập giá phòng"
               onChange={handleChange}
             />
           </div>
 
           {/* DESCRIPTION */}
           <div className="input-group">
-            <label>Description</label>
+            <label>Mô tả</label>
             <textarea
               name="desc"
               value={desc}
               onChange={handleChange}
-              placeholder="Room description"
+              placeholder="Mô tả phòng"
             ></textarea>
           </div>
 
           {/* ROOM NUMBERS */}
           <div className="input-group">
-            <label>Room Numbers</label>
+            <label>Số phòng</label>
             <textarea
               name="roomNumbers"
               value={roomNumbers}
               onChange={handleChange}
-              placeholder="Separate by commas (ex: 101, 102, 201)"
+              placeholder="Ngăn cách bởi dấu phẩy (ví dụ: 101, 102, 201)"
             ></textarea>
           </div>
 
           {/* IMAGES */}
           <div className="input-group">
-            <label>Images</label>
+            <label>Hình ảnh</label>
             <input
               type="file"
-              name="image"     // <-- FIX QUAN TRỌNG!!!
+              name="image"
               multiple
               onChange={handleFileChange}
             />
           </div>
 
-          <button type="submit">Submit</button>
+          <button type="submit">Tạo phòng</button>
         </form>
       </div>
     </div>

@@ -58,14 +58,16 @@ export const logoutUser = createAsyncThunk(
   "auth/logout",
   async (_, thunkApi) => {
     try {
-      const res = await fetch("/api/users/logout");
+      const res = await fetch("/api/users/logout", {
+        method: "POST",
+      });
+
       if (!res.ok) {
         const error = await res.json();
         return thunkApi.rejectWithValue(error);
       }
 
       const data = await res.json();
-      //   remove user rrom local storage
       localStorage.removeItem("user");
       return data;
     } catch (error) {
@@ -73,6 +75,7 @@ export const logoutUser = createAsyncThunk(
     }
   }
 );
+
 
 const initialState = {
   user: user ? user : null,

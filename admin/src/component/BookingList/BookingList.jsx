@@ -9,28 +9,31 @@ const BookingList = ({ data }) => {
         <table>
           <thead>
             <tr>
-              <th>Full Name</th>
+              <th>Họ và tên</th>
               <th>Email</th>
-              <th>Room</th>
-              <th>Confirmed</th>
-              <th>Action</th>
+              <th>Phòng</th>
+              <th>Xác nhận</th>
+              <th>Hành động</th>
             </tr>
           </thead>
 
           <tbody>
-            {data
-              ?.filter(Boolean)
-              ?.map((item) => (
-                <tr key={item._id}>
-                  <td>{item.fullName || "N/A"}</td>
-                  <td>{item.email || "N/A"}</td>
-                  <td>{item.room?.roomNumber || "No Room"}</td>
-                  <td>{item.confirmed ? "Yes" : "No"}</td>
-                  <td>
-                    <Link to={`/bookings/${item._id}`}>View</Link>
-                  </td>
-                </tr>
-              ))}
+            {data?.map((item) => (
+              <tr key={item._id}>
+                <td>{item.name || "Không có"}</td>
+                <td>{item.email}</td>
+
+                <td>{item.roomId?.name || "Chưa chọn phòng"}</td>
+
+                <td>{item.confirmed ? "Đã xác nhận" : "Chưa xác nhận"}</td>
+
+                <td>
+                  <Link to={`/booking/${item._id}`} className="view-btn">
+                    Xem
+                  </Link>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

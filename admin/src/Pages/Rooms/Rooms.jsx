@@ -25,7 +25,7 @@ const Rooms = () => {
   return (
     <div>
       <div className="container">
-        <h1 className="heading center">Rooms</h1>
+        <h1 className="heading center">Danh sách phòng</h1>
         {rooms.length > 0 ? <RoomList data={rooms} /> : null}
       </div>
     </div>

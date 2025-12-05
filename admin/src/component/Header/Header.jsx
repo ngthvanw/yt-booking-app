@@ -16,21 +16,21 @@ const Header = () => {
     <header className="main-header">
       <div className="container">
         <Link to="/">
-          <h1 className="logo">YtVilla</h1>
+          <h1 className="logo">Royal Hotel</h1>
         </Link>
 
         <nav>
-          <Link to="/rooms">Rooms</Link>
+          <Link to="/rooms">Danh Sách Phòng</Link>
           {user ? (
             <>
-              <Link to="/dashboard">Dashboard</Link>
-              <Link to="/rooms/create">Create</Link>
-              <button onClick={handleLogout}>Logout</button>
+              <Link to="/dashboard">Bảng Quản Lý</Link>
+              <Link to="/rooms/create">Tạo Phòng</Link>
+              <button onClick={handleLogout}>Đăng Xuất</button>
             </>
           ) : (
             <>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
+              <Link to="/login">Đăng Nhập</Link>
+              <Link to="/register">Đăng ký</Link>
             </>
           )}
         </nav>

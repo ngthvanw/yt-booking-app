@@ -34,7 +34,7 @@ const Home = () => {
 
         <div className="rooms-preview">
           {featuredRooms.map((room) => (
-            <Link key={room._id} to={`/rooms/${room._id}`} className="room-card">
+            <Link to={`/room/${room._id}`} className="room-card">
               <img
                 src={
                   room.img && room.img.length > 0

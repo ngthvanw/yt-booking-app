@@ -1,21 +1,20 @@
-const { Router } = require("express");
-const {
+const express = require("express");
+const router = express.Router();
+
+// ⭐ FIX QUAN TRỌNG
+const auth = require("../middleware/authMiddleware");
+
+const { 
   getUsers,
   createUser,
   loginUser,
-  logoutUser,
+  logoutUser
 } = require("../controllers/userController");
-const { auth } = require("../middleware/authMiddleware");
 
-const router = Router();
-
-// get all users
+// ⭐ ROUTES
 router.get("/", auth, getUsers);
-
-// create user
 router.post("/", createUser);
-// login user
 router.post("/login", loginUser);
-// logout user
-router.get("/logout", logoutUser);
+router.post("/logout", logoutUser);
+
 module.exports = router;
