@@ -38,3 +38,17 @@ a {
 a:hover {
   text-decoration: underline;
 }
+.delete-btn {
+  padding: 6px 12px;
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: #c62828;
+}

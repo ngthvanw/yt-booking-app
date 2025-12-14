@@ -143,9 +143,14 @@ const ServiceBooking = () => {
           {error && <p className="error">{error}</p>}
           {success && <p className="success">{success}</p>}
 
-          <button type="submit" disabled={loading}>
+          <button
+            type="submit"
+            className="submit-btn"
+            disabled={loading}
+          >
             {loading ? "Đang xử lý..." : "Xác nhận đặt dịch vụ"}
           </button>
+
         </form>
       </div>
     </div>

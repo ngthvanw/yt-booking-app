@@ -57,24 +57,18 @@ const Dashboard = () => {
           marginTop: "20px",
         }}
       >
-        <button
-          onClick={() => setTab("rooms")}
-        >
-          Đặt phòng
-        </button>
-
-        <button
-          onClick={() => setTab("services")}
-        >
-          Đặt dịch vụ
-        </button>
+        <button onClick={() => setTab("rooms")}>Đặt phòng</button>
+        <button onClick={() => setTab("services")}>Đặt dịch vụ</button>
       </div>
 
       {/* HIỂN THỊ BẢNG */}
       {tab === "rooms" && <BookingList data={bookings} />}
 
       {tab === "services" && (
-        <ServiceBookingList data={serviceBookings} />
+        <ServiceBookingList
+          data={serviceBookings}
+          setData={setServiceBookings} // 👈 QUAN TRỌNG
+        />
       )}
     </div>
   );
