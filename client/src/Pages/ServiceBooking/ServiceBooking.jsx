@@ -1,10 +1,12 @@
 import { useState } from "react";
 import "./service-booking.styles.scss";
+import { SERVICES } from "../../constants/services";
 
 const ServiceBooking = () => {
   const [customerName, setCustomerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [date, setDate] = useState("");
+  const [serviceType, setServiceType] = useState("");
   const [timeSlot, setTimeSlot] = useState("");
   const [note, setNote] = useState("");
 
@@ -12,11 +14,17 @@ const ServiceBooking = () => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  const type = "Nhà hàng";
-  const serviceName = "Skyline Bar & Lounge";
+  const selectedService = SERVICES.find(
+    (s) => s.type === serviceType
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!selectedService) {
+      setError("Vui lòng chọn dịch vụ!");
+      return;
+    }
 
     setLoading(true);
     setSuccess("");
@@ -27,8 +35,8 @@ const ServiceBooking = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          type,
-          serviceName,
+          type: selectedService.category,
+          serviceName: selectedService.name,
           date,
           timeSlot,
           note,
@@ -49,6 +57,7 @@ const ServiceBooking = () => {
       setCustomerName("");
       setPhoneNumber("");
       setDate("");
+      setServiceType("");
       setTimeSlot("");
       setNote("");
     } catch (err) {
@@ -61,17 +70,12 @@ const ServiceBooking = () => {
   return (
     <div className="service-booking-page">
       <div className="service-booking-card">
-
         <h1>Đặt dịch vụ</h1>
-
-        <p><strong>Loại dịch vụ:</strong> {type}</p>
-        <p><strong>Tên dịch vụ:</strong> {serviceName}</p>
 
         <form className="service-booking-form" onSubmit={handleSubmit}>
           <label>Họ và tên *</label>
           <input
             type="text"
-            placeholder="Nhập họ và tên"
             value={customerName}
             onChange={(e) => setCustomerName(e.target.value)}
             required
@@ -80,7 +84,6 @@ const ServiceBooking = () => {
           <label>Số điện thoại *</label>
           <input
             type="text"
-            placeholder="Nhập số điện thoại"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             required
@@ -94,17 +97,45 @@ const ServiceBooking = () => {
             required
           />
 
+          <label>Chọn dịch vụ *</label>
+          <select
+            value={serviceType}
+            onChange={(e) => {
+              setServiceType(e.target.value);
+              setTimeSlot("");
+            }}
+            required
+          >
+            <option value="">-- Chọn dịch vụ --</option>
+
+            <optgroup label="DINING">
+              {SERVICES.filter(s => s.category === "DINING").map(s => (
+                <option key={s.type} value={s.type}>{s.name}</option>
+              ))}
+            </optgroup>
+
+            <optgroup label="SPA">
+              {SERVICES.filter(s => s.category === "SPA").map(s => (
+                <option key={s.type} value={s.type}>{s.name}</option>
+              ))}
+            </optgroup>
+          </select>
+
           <label>Khung giờ *</label>
-          <select value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)} required>
+          <select
+            value={timeSlot}
+            onChange={(e) => setTimeSlot(e.target.value)}
+            disabled={!selectedService}
+            required
+          >
             <option value="">-- Chọn khung giờ --</option>
-            <option value="08:00 - 10:00">08:00 - 10:00</option>
-            <option value="11:00 - 14:00">11:00 - 14:00</option>
-            <option value="17:00 - 22:00">17:00 - 22:00</option>
+            {selectedService?.timeSlots.map((slot) => (
+              <option key={slot} value={slot}>{slot}</option>
+            ))}
           </select>
 
           <label>Ghi chú (tuỳ chọn)</label>
           <textarea
-            placeholder="Vd: Bàn gần cửa sổ, massage cặp đôi..."
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
@@ -112,11 +143,10 @@ const ServiceBooking = () => {
           {error && <p className="error">{error}</p>}
           {success && <p className="success">{success}</p>}
 
-          <button type="submit" className="submit-btn" disabled={loading}>
+          <button type="submit" disabled={loading}>
             {loading ? "Đang xử lý..." : "Xác nhận đặt dịch vụ"}
           </button>
         </form>
-
       </div>
     </div>
   );
