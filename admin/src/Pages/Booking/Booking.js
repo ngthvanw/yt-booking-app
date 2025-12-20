@@ -12,13 +12,13 @@ const Booking = () => {
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Hàm format ngày (xóa T00:00:00.000Z)
+  // Format ngày
   const formatDate = (date) => {
     if (!date) return "";
     return new Date(date).toLocaleDateString("vi-VN");
   };
 
-  // Lấy thông tin đơn đặt phòng theo ID
+  // Lấy booking theo ID
   useEffect(() => {
     dispatch(reset());
 
@@ -35,7 +35,7 @@ const Booking = () => {
     fetchBooking();
   }, [id, dispatch]);
 
-  // Xác nhận booking
+  // Xác nhận booking (tiền mặt)
   const handleConfirm = async () => {
     setLoading(true);
     try {
@@ -43,6 +43,24 @@ const Booking = () => {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ confirmed: true }),
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error.message);
+    }
+    setLoading(false);
+  };
+
+  // ✅ XÁC NHẬN MOMO GIẢ
+  const handleConfirmMoMo = async () => {
+    setLoading(true);
+    try {
+      await fetch(`/api/bookings/${id}/confirm-momo`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          transactionId: `MOMO-${Date.now()}`,
+        }),
       });
       navigate("/dashboard");
     } catch (error) {
@@ -73,21 +91,62 @@ const Booking = () => {
 
       <div className="content-wrapper">
         <div className="text-wrapper">
-          <h2>{booking.fullName}</h2>
+          <h2>{booking.name || booking.fullName}</h2>
           <p>Email: {booking.email}</p>
           <p>Phòng: {booking.roomId?.name}</p>
 
-          {/* ✅ ĐÃ FORMAT NGÀY */}
           <p>Ngày nhận phòng: {formatDate(booking.checkInDate)}</p>
           <p>Ngày trả phòng: {formatDate(booking.checkOutDate)}</p>
+
+          <hr />
+
+          {/* ===== THANH TOÁN ===== */}
+          <p>
+            Hình thức thanh toán:{" "}
+            <b>{booking.paymentMethod?.toUpperCase()}</b>
+          </p>
+
+          <p>
+            Trạng thái thanh toán:{" "}
+            <b
+              style={{
+                color:
+                  booking.paymentStatus === "paid" ? "green" : "orange",
+              }}
+            >
+              {booking.paymentStatus}
+            </b>
+          </p>
+
+          {booking.transactionId && (
+            <p>
+              Mã giao dịch: <b>{booking.transactionId}</b>
+            </p>
+          )}
+
+          {booking.totalAmount && (
+            <p>
+              Tổng tiền:{" "}
+              <b>{booking.totalAmount.toLocaleString()} ₫</b>
+            </p>
+          )}
         </div>
 
         <div className="cta-wrapper">
-          {!booking.confirmed && (
+          {/* CASH */}
+          {booking.paymentMethod === "cash" && !booking.confirmed && (
             <button onClick={handleConfirm} disabled={loading}>
               {loading ? "Đang xử lý..." : "Xác nhận"}
             </button>
           )}
+
+          {/* MOMO */}
+          {booking.paymentMethod === "momo" &&
+            booking.paymentStatus !== "paid" && (
+              <button onClick={handleConfirmMoMo} disabled={loading}>
+                {loading ? "Đang xử lý..." : "Xác nhận MoMo"}
+              </button>
+            )}
 
           <button className="danger" onClick={handleDelete} disabled={loading}>
             Xóa

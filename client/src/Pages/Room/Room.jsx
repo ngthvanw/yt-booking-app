@@ -16,9 +16,6 @@ const Room = () => {
     fetchRoom();
   }, [id]);
 
-  // ==========================
-  // ZOOM + NEXT PREV
-  // ==========================
   useEffect(() => {
     if (!room) return;
 
@@ -34,27 +31,22 @@ const Room = () => {
       popup.classList.add("show");
     };
 
-    // click ảnh để mở popup
     document.querySelectorAll(".carousel img").forEach((img, index) => {
       img.onclick = () => openPopup(index);
     });
 
-    // đóng popup
     closeBtn.onclick = () => popup.classList.remove("show");
 
-    // click ra ngoài
     popup.onclick = (e) => {
       if (e.target === popup) popup.classList.remove("show");
     };
 
-    // next
     nextBtn.onclick = () => {
       const nextIndex = (currentIndex + 1) % room.img.length;
       setCurrentIndex(nextIndex);
       popupImg.src = room.img[nextIndex];
     };
 
-    // prev
     prevBtn.onclick = () => {
       const prevIndex =
         (currentIndex - 1 + room.img.length) % room.img.length;
@@ -68,14 +60,12 @@ const Room = () => {
   return (
     <div id="room-detail">
       <div className="container">
-        {/* GALLERY */}
         <div className="carousel">
           {room.img.map((src, i) => (
             <img key={i} src={src} alt={room.name} />
           ))}
         </div>
 
-        {/* INFO BOX */}
         <div className="info-box">
           <h1 className="title">{room.name}</h1>
           <p className="desc">{room.desc}</p>
@@ -85,22 +75,21 @@ const Room = () => {
             <span className="night">/đêm</span>
           </div>
 
-          <Link to={`/bookings/${room._id}`} className="book-btn">
+          {/* ✅ TRUYỀN roomId QUA STATE */}
+          <Link
+            to="/bookings"
+            state={{ roomId: room._id }}
+            className="book-btn"
+          >
             Đặt phòng
           </Link>
         </div>
       </div>
 
-      {/* POPUP ZOOM */}
       <div id="imgPopup" className="zoom-popup">
         <span className="close-zoom">×</span>
-
-        {/* Prev */}
         <span className="zoom-prev">❮</span>
-
         <img id="zoomedImg" src="" alt="zoomed" />
-
-        {/* Next */}
         <span className="zoom-next">❯</span>
       </div>
     </div>

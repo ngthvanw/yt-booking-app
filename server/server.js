@@ -13,6 +13,7 @@ const userRoutes = require("./routes/userRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const chatRoutes = require("./routes/chat.route");
 const serviceBookingRoutes = require("./routes/serviceBookingRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 
 const app = express();
@@ -33,6 +34,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/service-bookings", serviceBookingRoutes);
+app.use("/api/payment", paymentRoutes);
+
 
 
 // phục vụ file ảnh

@@ -15,6 +15,8 @@ import RoyalSignature from "./Pages/DiningDetail/RoyalSignature";
 import SkylineBar from "./Pages/DiningDetail/SkylineBar";
 import GardenTerrace from "./Pages/DiningDetail/GardenTerrace";
 import ServiceBooking from "./Pages/ServiceBooking/ServiceBooking";
+import PaymentSuccess from "./Pages/Payment/PaymentSuccess";
+import MoMoProcessing from "./Pages/Payment/MoMoProcessing";
 
 import ChuyenSau from "./Pages/SpaDetail/ChuyenSau";
 import HuongThom from "./Pages/SpaDetail/HuongThom";
@@ -31,12 +33,14 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/rooms" element={<Rooms />} />
           <Route path="/room/:id" element={<Room />} />   {/* FIXED */}
-          <Route path="/bookings/:id" element={<Booking />} />
+          <Route path="/bookings" element={<Booking />} />
           <Route path="/success" element={<Success />} />
           <Route path="/dining" element={<Dining />} />
           <Route path="/spa" element={<Spa />} />
           <Route path="/about" element={<About />} />
           <Route path="/service-booking" element={<ServiceBooking />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/momo-processing" element={<MoMoProcessing />} />
 
           {/* Dining Detail */}
           <Route path="/dining/royal-signature" element={<RoyalSignature />} />
@@ -47,6 +51,8 @@ const App = () => {
           <Route path="/spa/chuyen-sau" element={<ChuyenSau />} />
           <Route path="/spa/huong-thom" element={<HuongThom />} />
           <Route path="/spa/da-nong" element={<DaNong />} />
+          {/* Thanh Toán */}
+
 
         </Routes>
 

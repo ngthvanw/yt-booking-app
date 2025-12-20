@@ -1,6 +1,5 @@
-// client/src/components/Chatbot/Chatbot.jsx
-
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import "./chatbot.scss";
 
 const Chatbot = () => {
@@ -24,7 +23,7 @@ const Chatbot = () => {
 
     const userMsg = input;
 
-    // hiển thị tin nhắn user
+    // Hiển thị tin nhắn user
     setMessages((prev) => [...prev, { from: "user", text: userMsg }]);
     setInput("");
 
@@ -42,10 +41,10 @@ const Chatbot = () => {
 
       const extraMsgs = [];
 
-      // Nếu backend trả về rooms => tạo card cho những phòng tên xuất hiện trong reply
+      // Nếu backend trả về rooms
       if (data.rooms && Array.isArray(data.rooms)) {
-        const matched = data.rooms.filter((room) =>
-          data.reply.includes(room.name)
+        const matched = data.rooms.filter(
+          (room) => room && room._id && data.reply?.includes(room.name)
         );
 
         matched.forEach((room) => {
@@ -55,14 +54,13 @@ const Chatbot = () => {
               _id: room._id,
               name: room.name,
               desc: room.desc,
-              price: room.price, // price đang là string => hiển thị thẳng
+              price: room.price,
               img: room.img?.[0] || "",
             },
           });
         });
       }
 
-      // thêm card phòng (nếu có) + câu trả lời bot
       setMessages((prev) => [
         ...prev,
         ...extraMsgs,
@@ -73,7 +71,10 @@ const Chatbot = () => {
       setTyping(false);
       setMessages((prev) => [
         ...prev,
-        { from: "bot", text: "Xin lỗi, hiện tại hệ thống đang gặp lỗi. Bạn thử lại sau nhé 🥲" },
+        {
+          from: "bot",
+          text: "Xin lỗi, hệ thống đang gặp lỗi. Bạn thử lại sau nhé 🥲",
+        },
       ]);
     }
   };
@@ -82,7 +83,7 @@ const Chatbot = () => {
     if (e.key === "Enter") sendMessage();
   };
 
-  // Quick actions (nút gợi ý nhanh)
+  // Gợi ý nhanh
   const quickActions = [
     "Phòng giá rẻ nhất",
     "Phòng dưới 1 triệu",
@@ -92,14 +93,13 @@ const Chatbot = () => {
 
   return (
     <div className="chatbot-container">
-      {/* Nút chat tròn */}
+      {/* Nút mở chat */}
       {!open && (
         <button className="chat-btn" onClick={() => setOpen(true)}>
           💬
         </button>
       )}
 
-      {/* Khung chat */}
       {open && (
         <div className="chat-window">
           <div className="chat-header">
@@ -107,7 +107,7 @@ const Chatbot = () => {
               <img
                 src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
                 className="bot-avatar"
-                alt=""
+                alt="bot"
               />
               <span>Trợ lý khách sạn</span>
             </div>
@@ -131,35 +131,36 @@ const Chatbot = () => {
               <div key={i} className={`msg ${msg.from}`}>
                 {msg.text}
 
-                {/* Ảnh phòng (nếu có) */}
-                {msg.img && (
-                  <img src={msg.img} className="msg-img" alt="room" />
-                )}
-
                 {/* Card phòng gợi ý */}
-                {msg.roomCard && (
+                {msg.roomCard && msg.roomCard._id && (
                   <div className="room-card">
                     {msg.roomCard.img && (
-                      <img src={msg.roomCard.img} alt={msg.roomCard.name} />
+                      <img
+                        src={msg.roomCard.img}
+                        alt={msg.roomCard.name}
+                      />
                     )}
                     <div className="room-info">
                       <h4>{msg.roomCard.name}</h4>
                       <p>{msg.roomCard.desc}</p>
                       <strong>{msg.roomCard.price} / đêm</strong>
 
-                      <a
+                      {/* ✅ FIX CHUẨN: Link + state */}
+                      <Link
+                        to="/bookings"
+                        state={{ roomId: msg.roomCard._id }}
                         className="book-btn-mini"
-                        href={`/bookings/${msg.roomCard._id}`}
+                        onClick={() => setOpen(false)}
                       >
                         Đặt phòng
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 )}
               </div>
             ))}
 
-            {/* Typing animation */}
+            {/* Typing */}
             {typing && (
               <div className="msg bot typing">
                 <div className="dots">

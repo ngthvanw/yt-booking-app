@@ -1,35 +1,31 @@
-/* DataTable.css */
-
-.table-container {
-  overflow-x: auto;
+/* ===== PAYMENT STATUS ===== */
+.status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
+.status.paid {
+  background: #e6f9f0;
+  color: #1e8e5a;
 }
 
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+.status.pending {
+  background: #fff4e5;
+  color: #e67e22;
 }
 
-th {
-  background-color: #f2f2f2;
+/* ===== PAYMENT METHOD ===== */
+.method {
+  font-weight: bold;
 }
 
-button {
-  cursor: pointer;
-  margin-right: 5px;
+.method.momo {
+  color: #d82d8b;
 }
 
-/* Responsive styling using media query */
-@media (max-width: 600px) {
-  th,
-  td {
-    font-size: 14px;
-  }
+.method.cash {
+  color: #555;
 }

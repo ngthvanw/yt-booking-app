@@ -1,0 +1,131 @@
+.momo-page {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f6fb;
+  padding: 24px;
+}
+
+.momo-card {
+  width: 100%;
+  max-width: 920px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.momo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, #a50064, #e4007f);
+  color: #fff;
+
+  .brand {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    .logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.2);
+      font-size: 22px;
+      text-transform: uppercase;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.1;
+    }
+    .brand-sub {
+      opacity: 0.9;
+      font-size: 12px;
+    }
+  }
+
+  .status {
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 8px 12px;
+    border-radius: 10px;
+  }
+}
+
+.momo-body {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 18px;
+  padding: 22px;
+
+  @media (max-width: 860px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.left {
+  h2 {
+    margin: 0 0 14px 0;
+  }
+
+  .qr-box {
+    width: fit-content;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid #eee;
+    background: #fff;
+  }
+
+  .hint {
+    margin-top: 14px;
+    font-size: 14px;
+  }
+
+  .countdown {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #444;
+  }
+}
+
+.right {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 16px;
+
+  h3 {
+    margin: 0 0 12px 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed #e5e5e5;
+
+      span {
+        color: #666;
+      }
+    }
+  }
+
+  .note {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #777;
+  }
+}

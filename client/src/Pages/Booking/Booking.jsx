@@ -1,94 +1,165 @@
 import "./booking.styles.scss";
-import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { createBooking, reset } from "../../features/booking/bookingSlice";
+import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Booking = () => {
-  const { id: roomId } = useParams();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isSuccess } = useSelector((state) => state.booking);
+  const location = useLocation();
+  const roomId = location.state?.roomId;
+
+  const [disabledDates, setDisabledDates] = useState([]);
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    checkInDate: "",
-    checkOutDate: "",
+    checkInDate: null,
+    checkOutDate: null,
+    paymentMethod: "cash",
   });
 
+  /* ===== LOAD NGÀY ĐÃ BOOK ===== */
   useEffect(() => {
-    if (isSuccess) {
-      navigate("/success");
-      dispatch(reset());
-    }
-  }, [isSuccess, navigate, dispatch]);
+    if (!roomId) return;
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+    axios
+      .get(`http://localhost:5000/api/bookings/disabled-dates/${roomId}`)
+      .then((res) => {
+        // convert yyyy-mm-dd → Date
+        const dates = res.data.map((d) => new Date(d));
+        setDisabledDates(dates);
+      })
+      .catch(console.error);
+  }, [roomId]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(createBooking({ roomId, ...formData }));
+
+    if (!roomId) {
+      alert("Vui lòng chọn phòng");
+      navigate("/rooms");
+      return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/bookings", {
+        roomId,
+        name: formData.name,
+        email: formData.email,
+        checkInDate: formData.checkInDate,
+        checkOutDate: formData.checkOutDate,
+        paymentMethod: formData.paymentMethod,
+      });
+
+      const booking = res.data;
+
+      const bookingState = {
+        bookingId: booking._id,
+        bookingCode: booking.bookingCode,
+        roomName: booking.roomId?.name,
+        roomPrice: Number(booking.roomId?.price || 0),
+        checkInDate: booking.checkInDate,
+        checkOutDate: booking.checkOutDate,
+        paymentMethod: booking.paymentMethod,
+        name: booking.name,
+        email: booking.email,
+      };
+
+      if (formData.paymentMethod === "momo") {
+        navigate("/momo-processing", { state: bookingState });
+      } else {
+        navigate("/payment-success", { state: bookingState });
+      }
+    } catch (err) {
+      if (err.response?.status === 409) {
+        alert(err.response.data.message);
+      } else {
+        alert("Đặt phòng thất bại");
+      }
+    }
   };
 
   return (
-    <div id="booking-page">
-      <div className="container">
-        <h1 className="title">Đặt phòng</h1>
+    <div className="booking-page">
+      <div className="booking-card">
+        <h1>Đặt phòng</h1>
 
-        <form className="booking-form" onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="name">Họ và tên</label>
+        <form onSubmit={handleSubmit} className="booking-form">
+          <div className="form-group">
+            <label>Họ và tên</label>
             <input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Nhập họ tên của bạn"
               value={formData.name}
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               required
             />
           </div>
 
-          <div className="input-group">
-            <label htmlFor="email">Email</label>
+          <div className="form-group">
+            <label>Email</label>
             <input
-              id="email"
-              name="email"
               type="email"
-              placeholder="Nhập email của bạn"
               value={formData.email}
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               required
             />
           </div>
 
-          <div className="row">
-            <div className="input-group">
-              <label htmlFor="checkInDate">Ngày nhận phòng</label>
-              <input
-                id="checkInDate"
-                name="checkInDate"
-                type="date"
-                value={formData.checkInDate}
-                onChange={handleChange}
+          <div className="form-row">
+            <div className="form-group">
+              <label>Ngày nhận phòng</label>
+              <DatePicker
+                selected={formData.checkInDate}
+                onChange={(date) =>
+                  setFormData({
+                    ...formData,
+                    checkInDate: date,
+                    checkOutDate: null,
+                  })
+                }
+                excludeDates={disabledDates}
+                minDate={new Date()}
+                placeholderText="Chọn ngày"
+                dateFormat="dd/MM/yyyy"
                 required
               />
             </div>
 
-            <div className="input-group">
-              <label htmlFor="checkOutDate">Ngày trả phòng</label>
-              <input
-                id="checkOutDate"
-                name="checkOutDate"
-                type="date"
-                value={formData.checkOutDate}
-                onChange={handleChange}
+            <div className="form-group">
+              <label>Ngày trả phòng</label>
+              <DatePicker
+                selected={formData.checkOutDate}
+                onChange={(date) =>
+                  setFormData({ ...formData, checkOutDate: date })
+                }
+                excludeDates={disabledDates}
+                minDate={formData.checkInDate}
+                placeholderText="Chọn ngày"
+                dateFormat="dd/MM/yyyy"
                 required
               />
             </div>
+          </div>
+
+          <div className="form-group">
+            <label>Phương thức thanh toán</label>
+            <select
+              value={formData.paymentMethod}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  paymentMethod: e.target.value,
+                })
+              }
+            >
+              <option value="cash">💵 Tiền mặt</option>
+              <option value="momo">📱 MoMo</option>
+            </select>
           </div>
 
           <button type="submit" className="submit-btn">

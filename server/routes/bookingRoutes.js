@@ -1,20 +1,23 @@
-const { Router } = require("express");
-const auth = require("../middleware/authMiddleware");  // ⭐ FIX QUAN TRỌNG
+const express = require("express");
+const router = express.Router();
+const bookingController = require("../controllers/bookingController");
 
-const {
-  getBookings,
-  createBooking,
-  updateBooking,
-  deleteBooking,
-  getBooking,
-} = require("../controllers/bookingController");
+router.post("/", bookingController.createBooking);
 
-const router = Router();
 
-router.get("/", auth, getBookings);
-router.get("/:id", getBooking);
-router.post("/", createBooking);
-router.put("/:id", auth, updateBooking);
-router.delete("/:id", auth, deleteBooking);
+router.get(
+  "/disabled-dates/:roomId",
+  bookingController.getDisabledDates
+);
+
+router.get("/", bookingController.getBookings);
+router.get("/:id", bookingController.getBookingById);
+
+router.patch(
+  "/:id/confirm-momo",
+  bookingController.confirmMoMoFake
+);
+
+router.delete("/:id", bookingController.deleteBooking);
 
 module.exports = router;
